@@ -88,12 +88,12 @@ router.put("/update_task/:id", async (req, res) => {
 // task status change
 
 router.patch("/toggle_task_status/:id/:status", async (req, res) => {
-  const { id } = req.params;
+  const { id, status } = req.params;
   const { completed } = req.body;
 
   const updatedTask = await Task.findByIdAndUpdate(
     id,
-    { status: true },
+    { status: status },
     { new: true }
   );
 
