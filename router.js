@@ -24,6 +24,8 @@ router.post("/add_task", async (req, res) => {
   }
 });
 
+// add task
+
 router.get("/get_task", async (req, res) => {
   try {
     console.log("get task");
@@ -43,9 +45,11 @@ router.get("/get_task", async (req, res) => {
   }
 });
 
+// delete task
+
 router.post("/delete_task", async (req, res) => {
   let taskId = req.params.id;
-  let deleted = await Task.deleteOne({ id: taskId });
+  let deleted = await Task.findByIdAndDelete({ id: taskId });
   if (deleted) {
     return res.json({
       msg: "Task is deleted successfully !!!",
@@ -58,6 +62,8 @@ router.post("/delete_task", async (req, res) => {
     });
   }
 });
+
+// update task
 
 router.put("/update_task", async (req, res) => {
   let taskId = req.params.id;
@@ -80,13 +86,15 @@ router.put("/update_task", async (req, res) => {
   }
 });
 
+// task status change
+
 router.patch("/toggle_task_status/:id/status", async (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
 
   const updatedTask = await Task.findByIdAndUpdate(
     id,
-    { status: completed },
+    { status: true },
     { new: true }
   );
 
