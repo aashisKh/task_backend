@@ -28,9 +28,7 @@ router.post("/add_task", async (req, res) => {
 
 router.get("/get_task", async (req, res) => {
   try {
-    console.log("get task");
     let getTask = await Task.find({});
-    console.log(getTask);
     return res.json({
       msg: "Task found Successfully !!!",
       status: true,
@@ -47,9 +45,9 @@ router.get("/get_task", async (req, res) => {
 
 // delete task
 
-router.post("/delete_task", async (req, res) => {
+router.delete("/delete_task/:id", async (req, res) => {
   let taskId = req.params.id;
-  let deleted = await Task.findByIdAndDelete({ id: taskId });
+  let deleted = await Task.findByIdAndDelete({ _id: taskId });
   if (deleted) {
     return res.json({
       msg: "Task is deleted successfully !!!",
@@ -65,7 +63,8 @@ router.post("/delete_task", async (req, res) => {
 
 // update task
 
-router.put("/update_task", async (req, res) => {
+router.put("/update_task/:id", async (req, res) => {
+  console.log("update");
   let taskId = req.params.id;
   let { title, description, status } = req.body;
   let updated = await Task.findByIdAndUpdate(taskId, {
@@ -88,7 +87,7 @@ router.put("/update_task", async (req, res) => {
 
 // task status change
 
-router.patch("/toggle_task_status/:id/status", async (req, res) => {
+router.patch("/toggle_task_status/:id/:status", async (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
 
